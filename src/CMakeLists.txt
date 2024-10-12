@@ -20,8 +20,6 @@ list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/Eterm
 list(APPEND TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/mEterm.cpp")
 list(SORT TERMINAL_FILES CASE INSENSITIVE)
 
-message(STATUS "${TERMINAL_FILES}")
-
 add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/generated/Data.cpp"
                    BYPRODUCTS ${TERMINAL_FILES} COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Data
                    DEPENDS parser

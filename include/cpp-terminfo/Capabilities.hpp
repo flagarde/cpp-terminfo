@@ -20,7 +20,18 @@ namespace Terminfo
 {
 class Capabilities
 {
+private:
+  static const constexpr std::size_t                    m_booleans_size{37};
+  static const std::array<Capability, m_booleans_size>  m_booleans;
+  static const constexpr std::size_t                    m_intergers_size{33};
+  static const std::array<Capability, m_intergers_size> m_integers;
+  static const constexpr std::size_t                    m_strings_size{405};
+  static const std::array<Capability, m_strings_size>   m_strings;
+
 public:
+  using boolean_const_iterator = std::array<Capability, m_booleans_size>::const_iterator;
+  using integer_const_iterator = std::array<Capability, m_intergers_size>::const_iterator;
+  using string_const_iterator  = std::array<Capability, m_strings_size>::const_iterator;
   Boolean                 getBoolean(const std::string& str);
   Integer                 getInteger(const std::string& str);
   String                  getString(const std::string& str);
@@ -38,13 +49,5 @@ public:
     else
       return Capability::Type::not_yet;
   }
-
-private:
-  static const constexpr std::size_t                    m_booleans_size{37};
-  static const std::array<Capability, m_booleans_size>  m_booleans;
-  static const constexpr std::size_t                    m_intergers_size{33};
-  static const std::array<Capability, m_intergers_size> m_integers;
-  static const constexpr std::size_t                    m_strings_size{405};
-  static const std::array<Capability, m_strings_size>   m_strings;
 };
 }  // namespace Terminfo

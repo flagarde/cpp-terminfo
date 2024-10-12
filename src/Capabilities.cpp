@@ -509,21 +509,21 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_strings_size> T
 
 Terminfo::Boolean Terminfo::Capabilities::getBoolean(const std::string& str)
 {
-  const Terminfo::Capability* found = std::find(m_booleans.begin(), m_booleans.end(), str);
+  const boolean_const_iterator found = std::find(m_booleans.begin(), m_booleans.end(), str);
   if(found != m_booleans.end()) return static_cast<Terminfo::Boolean>(found->value());
   throw std::out_of_range(str);
 }
 
 Terminfo::Integer Terminfo::Capabilities::getInteger(const std::string& str)
 {
-  const Terminfo::Capability* found = std::find(m_integers.begin(), m_integers.end(), str);
-  if(found != m_integers.end()) return static_cast<Terminfo::Integer>(found->value());
+  const integer_const_iterator found = std::find(m_integers.begin(), m_integers.end(), str);
+  if(std::find(m_integers.begin(), m_integers.end(), str) != m_integers.end()) return static_cast<Terminfo::Integer>(found->value());
   throw std::out_of_range(str);
 }
 
 Terminfo::String Terminfo::Capabilities::getString(const std::string& str)
 {
-  const Terminfo::Capability* found = std::find(m_strings.begin(), m_strings.end(), str);
+  const string_const_iterator found = std::find(m_strings.begin(), m_strings.end(), str);
   if(found != m_strings.end()) return static_cast<Terminfo::String>(found->value());
   throw std::out_of_range(str);
 }
