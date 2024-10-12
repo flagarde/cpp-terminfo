@@ -1,8 +1,8 @@
 /*
  * cpp-terminfo
- * C++ library for terminal terminfo capacities.
+ * C++ standalone library for terminal terminfo capabilities.
  *
- * SPDX-FileCopyrightText: 2019-2024 cpp-terminal
+ * SPDX-FileCopyrightText: 2023-2024 cpp-terminfo
  *
  * SPDX-License-Identifier: MIT
  */
@@ -10,9 +10,11 @@
 #pragma once
 #include <cstdint>
 
-namespace Terminfo {
+namespace Terminfo
+{
 
-enum class Integer : std::uint8_t {
+enum class Integer : std::uint8_t
+{
   columns,
   init_tabs,
   lines,

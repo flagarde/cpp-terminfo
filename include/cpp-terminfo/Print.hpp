@@ -1,8 +1,8 @@
 /*
  * cpp-terminfo
- * C++ library for terminal terminfo capacities.
+ * C++ standalone library for terminal terminfo capabilities.
  *
- * SPDX-FileCopyrightText: 2019-2024 cpp-terminal
+ * SPDX-FileCopyrightText: 2023-2024 cpp-terminfo
  *
  * SPDX-License-Identifier: MIT
  */
@@ -10,10 +10,11 @@
 #pragma once
 #include <iosfwd>
 
-namespace Terminfo {
+namespace Terminfo
+{
 
 class Terminfo;
 
-std::ostream &operator<<(std::ostream &os, const Terminfo *iss);
+std::ostream& operator<<(std::ostream& os, const Terminfo* iss);
 
-} // namespace Terminfo
+}  // namespace Terminfo

@@ -1,8 +1,8 @@
 /*
  * cpp-terminfo
- * C++ library for terminal terminfo capacities.
+ * C++ standalone library for terminal terminfo capabilities.
  *
- * SPDX-FileCopyrightText: 2019-2024 cpp-terminal
+ * SPDX-FileCopyrightText: 2023-2024 cpp-terminfo
  *
  * SPDX-License-Identifier: MIT
  */
@@ -11,17 +11,17 @@
 
 #include "cpp-terminfo/Terminfo.hpp"
 
-namespace Terminfo {
-class Terminfos {
+namespace Terminfo
+{
+class Terminfos
+{
 public:
-  Terminfos(const std::vector<std::reference_wrapper<Terminfo>> &term)
-      : m_terminfos(term) {};
-  const Terminfo *getTerminfo(const std::string &term) const {
-    for (std::size_t i = 0; i != m_terminfos.size(); ++i) {
-      if (m_terminfos[i].get().getType().isAlias(term)) {
-
-        return &m_terminfos[i].get();
-      }
+  Terminfos(const std::vector<std::reference_wrapper<Terminfo>>& term) : m_terminfos(term) {};
+  const Terminfo* getTerminfo(const std::string& term) const
+  {
+    for(std::size_t i = 0; i != m_terminfos.size(); ++i)
+    {
+      if(m_terminfos[i].get().getType().isAlias(term)) { return &m_terminfos[i].get(); }
     }
     return nullptr;
   }
@@ -29,4 +29,4 @@ public:
 private:
   std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
-} // namespace Terminfo
+}  // namespace Terminfo
