@@ -1,0 +1,57 @@
+---
+ci:
+  skip: []
+
+default_install_hook_types:
+- pre-commit
+- pre-merge-commit
+- pre-push
+- prepare-commit-msg
+- commit-msg
+- post-commit
+- post-checkout
+- post-merge
+- post-rewrite
+
+fail_fast: false
+
+repos:
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+    - id: markdownlint
+      args: [--config=.markdownlint.yml, scan]
+
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: 3.0.3
+    hooks:
+    - id: editorconfig-checker
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+    - id: remove-crlf
+    - id: remove-tabs
+      args: [--whitespaces-count, '2']
+    - id: insert-license
+      files: \.(h(pp)|h(pp.in)|c(pp)|h(pp.in)?)$
+      args: [--license-filepath, .LICENSE, --comment-style, /*|*|*/, --use-current-year, --fuzzy-match-generates-todo, --fuzzy-ratio-cut-off, '85', --fuzzy-match-todo-instructions, ' TODO: Delete the inconsistent license and above line and rerun pre-commit to insert a good license. If this is the desired behavior add "//  insert-license=off" at the beginning to the file.', --skip-license-insertion-comment, '//  insert-license=off' ]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+    - id: codespell
+
+  - repo: https://github.com/Kr4is/cmake-format-precommit
+    rev: v0.6.14
+    hooks:
+    - id: cmake-format
+      args: [--config=.cmake-format.yml]
+    - id: cmake-lint
+      args: [--config=.cmake-linter.yml]
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v19.1.1
+    hooks:
+      - id: clang-format

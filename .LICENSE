@@ -1,0 +1,6 @@
+cpp-terminfo
+C++ library for terminal terminfo capacities.
+
+SPDX-FileCopyrightText: 2019-2023 cpp-terminal
+
+SPDX-License-Identifier: MIT
