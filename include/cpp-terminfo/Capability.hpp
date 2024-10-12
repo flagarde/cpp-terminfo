@@ -31,11 +31,11 @@ public:
   inline explicit Capability(const Boolean& val, const std::string& name, const std::string& desc) : m_name(name), m_description(desc), m_type(Type::boolean), m_value(static_cast<std::uint8_t>(val)) {};
   inline explicit Capability(const Integer& val, const std::string& name, const std::string& desc) : m_name(name), m_description(desc), m_type(Type::integer), m_value(static_cast<std::uint8_t>(val)) {};
   inline explicit Capability(const String& val, const std::string& name, const std::string& desc) : m_name(name), m_description(desc), m_type(Type::string), m_value(static_cast<std::uint16_t>(val)) {};
-  inline std::string  description() const noexcept { return m_description; }
-  inline std::string  name() const noexcept { return m_name; }
-  inline std::uint8_t value() const noexcept { return m_value; }
-  inline Type         type() const noexcept { return m_type; }
-  inline bool         operator==(const std::string& str) const noexcept
+  inline std::string   description() const noexcept { return m_description; }
+  inline std::string   name() const noexcept { return m_name; }
+  inline std::uint16_t value() const noexcept { return m_value; }
+  inline Type          type() const noexcept { return m_type; }
+  inline bool          operator==(const std::string& str) const noexcept
   {
     if(m_name == str) return true;
     else
