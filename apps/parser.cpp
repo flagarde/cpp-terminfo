@@ -52,15 +52,22 @@ void Writer::writeHeader()
 
 void Writer::writeCPP()
 {
-  std::vector<std::string> ignore{"9term"};
+  std::vector<std::string>           ignore{"9term"};
+  std::map<std::string, std::string> replace{{"Eterm", "mEterm"}};
   for(int i = 0; i != m_infos.size(); ++i)
   {
     if(m_infos[i].getType().name().find('+') != std::string::npos || std::find(ignore.begin(), ignore.end(), m_infos[i].getType().name()) != ignore.end()) continue;
-    std::ofstream outfile(m_cpp_path + "terminals/" + m_infos[i].getType().name() + ".cpp");
-    std::ofstream header(m_cpp_path + "include/cpp-terminfo/" + m_infos[i].getType().name() + ".hpp");
+    std::string name = m_infos[i].getType().name();
+    if(replace.find(name) != replace.end())
+    {
+      name = replace.find(name)->second;
+      std::cout << name << std::endl;
+    }
+    std::ofstream outfile(m_cpp_path + "terminals/" + name + ".cpp");
+    std::ofstream header(m_cpp_path + "include/cpp-terminfo/" + name + ".hpp");
     outfile << "// terminal : " << m_infos[i].getType().name() << "\n";
     outfile << "#include \"cpp-terminfo/Terminfo.hpp\"\n";
-    outfile << "#include \"cpp-terminfo/" << m_infos[i].getType().name() << ".hpp\"\n";
+    outfile << "#include \"cpp-terminfo/" << name << ".hpp\"\n";
 
     std::string description = m_infos[i].getType().description();
     std::string aliases     = "\"" + m_infos[i].getType().name() + "\"";
@@ -122,7 +129,9 @@ void Writer::writeCPP()
   for(int i = 0; i != m_infos.size(); ++i)
   {
     if(m_infos[i].getType().name().find('+') != std::string::npos || std::find(ignore.begin(), ignore.end(), m_infos[i].getType().name()) != ignore.end()) continue;
-    outfile << "#include \"cpp-terminfo/" << m_infos[i].getType().name() << ".hpp\"\n";
+    std::string name = m_infos[i].getType().name();
+    if(replace.find(name) != replace.end()) name = replace.find(name)->second;
+    outfile << "#include \"cpp-terminfo/" << name << ".hpp\"\n";
     term_list += "t";
     term_list += std::to_string(i + 1);
     term_list += ",";

@@ -15,6 +15,12 @@ foreach(TERMINAL IN LISTS LINES)
   endif()
 endforeach()
 list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/9term.cpp")
+# Because eterm and Eterm exist so in system with uncase filesystem there is a mess
+list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/Eterm.cpp")
+list(APPEND TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/mEterm.cpp")
+list(SORT TERMINAL_FILES CASE INSENSITIVE)
+
+message(STATUS "${TERMINAL_FILES}")
 
 add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/generated/Data.cpp"
                    BYPRODUCTS ${TERMINAL_FILES} COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Data

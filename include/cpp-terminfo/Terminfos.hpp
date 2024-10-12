@@ -11,6 +11,8 @@
 
 #include "cpp-terminfo/Terminfo.hpp"
 
+#include <functional>
+
 namespace Terminfo
 {
 class Terminfos
