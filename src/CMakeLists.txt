@@ -20,11 +20,10 @@ list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/Eterm
 list(APPEND TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/mEterm.cpp")
 list(SORT TERMINAL_FILES CASE INSENSITIVE)
 
-add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/generated/Data.cpp"
-                   BYPRODUCTS "${TERMINAL_FILES}" COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Data
-                   DEPENDS parser
+add_custom_command(OUTPUT ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Data.cpp"  COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Data
                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/generated"
                    COMMENT "Parsing and generating Data.cpp Data.hpp")
+#add_custom_target(data DEPENDS ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Data.cpp")
 add_library(terminfo-data SHARED "${PROJECT_BINARY_DIR}/generated/Data.cpp" "${TERMINAL_FILES}")
 target_include_directories(terminfo-data PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/generated/include> $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
 
