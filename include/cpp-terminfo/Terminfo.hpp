@@ -27,8 +27,8 @@ public:
   Terminfo(const Type& type, const std::set<Boolean>& booleans, const std::map<Integer, std::uint16_t>& integers, const std::map<String, std::string>& strings) : m_type(type), m_booleans(booleans), m_integers(integers), m_strings(strings) {}
   Type                             getType() const { return m_type; }
   void                             addBoolean(const Boolean& boolean) { m_booleans.insert(boolean); }
-  void                             addInteger(const Integer& integer, const std::uint16_t& value) { m_integers.emplace(integer, value); }
-  void                             addString(const String& string, const std::string& value) { m_strings.emplace(string, value); }
+  void                             addInteger(const Integer& integer, const std::uint16_t& value) { m_integers[integer] = {value}; }
+  void                             addString(const String& string, const std::string& value) { m_strings[string] = {value}; }
   void                             add(const Terminfo& rhs);
   void                             remove(const Boolean& boolean) { m_booleans.erase(boolean); }
   void                             remove(const Integer& integer) { m_integers.erase(integer); }

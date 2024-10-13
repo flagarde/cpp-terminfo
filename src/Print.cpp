@@ -14,7 +14,7 @@
 
 std::ostream& Terminfo::operator<<(std::ostream& os, const Terminfo* term)
 {
-  static const Capabilities cap;
+  static const Capabilities cap{};
   os << term->getType().name() << ": " << term->getType().description() << '\n';
   if(term->getType().hasAlias())
   {
