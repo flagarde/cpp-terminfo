@@ -81,13 +81,17 @@ void Terminfo::Parser::parse()
     }
     fs.close();
   }
-  catch(const std::ifstream::failure& e)
+  catch(const std::ifstream::failure&)
   {
     if(fs.is_open()) fs.close();
     if(!capabilities_lines.empty()) parseCapabilities(capabilities_lines);
   }
-
-  while(!m_need_reparse.empty()) { resolveUses(); }
+  for(std::map<std::string, std::vector<std::string>>::iterator it=m_need_reparse.begin();it!=m_need_reparse.end();++it)
+  {
+    std::reverse(it->second.begin(),it->second.end());
+  }
+  std::cout<<m_need_reparse.size()<<std::endl;
+  while(!m_need_reparse.empty()) { resolveUses(); std::cout<<m_need_reparse.size()<<std::endl;}
   resolveDeletes();
 }
 
@@ -177,20 +181,19 @@ void Terminfo::Parser::parseCapability(const std::string& line)
 
 void Terminfo::Parser::resolveUses()
 {
-  std::vector<std::map<std::string, std::vector<std::string>>::iterator> to_remove;
+  std::map<std::string, std::vector<std::string>> temp;
+  
   for(std::map<std::string, std::vector<std::string>>::iterator it = m_need_reparse.begin(); it != m_need_reparse.end(); ++it)
   {
-    for(std::vector<std::string>::reverse_iterator itt = it->second.rbegin(); itt != it->second.rend(); ++itt)
+    std::vector<std::string> temp_vec;
+    for(std::size_t i =0; i!=it->second.size(); ++i)
     {
-      if(m_need_reparse.find(*itt) == m_need_reparse.end())
-      {
-        m_infos[getTerminfo(it->first)].add(m_infos[getTerminfo(*itt)]);
-        it->second.erase((itt + 1).base());
-      }
+      if(m_need_reparse.find(it->second[i]) == m_need_reparse.end()) m_infos[getTerminfo(it->first)].add(m_infos[getTerminfo(it->second[i])]);
+      else temp_vec.push_back(it->second[i]);
     }
-    if(it->second.empty()) to_remove.push_back(it);
+    if(!temp_vec.empty()) temp[it->first]=temp_vec;
   }
-  for(std::size_t i = 0; i != to_remove.size(); ++i) m_need_reparse.erase(to_remove[i]);
+  m_need_reparse=temp;
 }
 
 void Terminfo::Parser::resolveDeletes()

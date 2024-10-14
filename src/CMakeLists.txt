@@ -1,4 +1,4 @@
-add_library(terminfo SHARED Capabilities.cpp Terminfo.cpp Parser.cpp Print.cpp)
+add_library(terminfo STATIC Capabilities.cpp Terminfo.cpp Parser.cpp Print.cpp)
 target_include_directories(terminfo PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
 
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/generated/include/cpp-terminfo")
