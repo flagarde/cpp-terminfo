@@ -13,18 +13,20 @@
 
 #include <functional>
 
-#if defined(CPP_TERMINFO_EXPORTS) && defined(_MSC_VER)
-  #define DLLEXPORT __declspec(dllexport)
-#elif defined(_MSC_VER)
-  #define DLLEXPORT __declspec(dllimport)
+#ifdef _MSC_VER
+  #ifdef BUILDING_CPP_TERMINFO
+    #define CPP_TERMINFO_DECLSPEC __declspec(dllexport)
+  #else
+    #define CPP_TERMINFO_DECLSPEC __declspec(dllimport)
+  #endif
 #else
-  #define DLLEXPORT
+  #define CPP_TERMINFO_DECLSPEC
 #endif
 
 namespace Terminfo
 {
 
-class Terminfos
+class CPP_TERMINFO_DECLSPEC Terminfos
 {
 public:
   Terminfos() = default;
@@ -38,10 +40,10 @@ public:
   }
 
 private:
-  DLLEXPORT static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
+  static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
 
-inline const Terminfo* get(const std::string& term)
+CPP_TERMINFO_DECLSPEC inline const Terminfo* get(const std::string& term)
 {
   static Terminfos m_terminfos{};
   return m_terminfos.getTerminfo(term);

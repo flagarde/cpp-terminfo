@@ -118,14 +118,7 @@ void Writer::writeCPP()
     term_list += ",";
   }
   if(term_list.size() > 1) term_list.pop_back();
-  outfile << "#if defined(CPP_TERMINFO_EXPORTS) && defined(_MSC_VER)\n";
-  outfile << "#define DLLEXPORT __declspec(dllexport)\n";
-  outfile << "#elif defined(_MSC_VER)\n";
-  outfile << "#define DLLEXPORT __declspec(dllimport)\n";
-  outfile << "#else\n";
-  outfile << "#define DLLEXPORT\n";
-  outfile << "#endif\n";
-  outfile << "DLLEXPORT const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
+  outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
   outfile.close();
 }
 
