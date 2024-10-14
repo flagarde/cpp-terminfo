@@ -16,8 +16,6 @@
 #ifdef _MSC_VER
   #ifdef BUILDING_CPP_TERMINFO
     #define CPP_TERMINFO_DECLSPEC __declspec(dllexport)
-  #else
-    #define CPP_TERMINFO_DECLSPEC __declspec(dllimport)
   #endif
 #else
   #define CPP_TERMINFO_DECLSPEC
