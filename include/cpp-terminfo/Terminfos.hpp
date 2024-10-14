@@ -13,6 +13,14 @@
 
 #include <functional>
 
+#if defined(CPP_TERMINFO_EXPORTS) && defined(_MSC_VER)
+  #define DLLEXPORT __declspec(dllexport)
+#elif defined(_MSC_VER)
+  #define DLLEXPORT __declspec(dllimport)
+#else
+  #define DLLEXPORT
+#endif
+
 namespace Terminfo
 {
 
@@ -30,7 +38,7 @@ public:
   }
 
 private:
-  static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
+  DLLEXPORT static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
 
 inline const Terminfo* get(const std::string& term)
