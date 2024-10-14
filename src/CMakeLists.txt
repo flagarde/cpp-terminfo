@@ -26,6 +26,7 @@ add_custom_command(OUTPUT ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Dat
 #add_custom_target(data DEPENDS ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Data.cpp")
 add_library(terminfo-data SHARED "${PROJECT_BINARY_DIR}/generated/Data.cpp" "${TERMINAL_FILES}")
 target_include_directories(terminfo-data PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/generated/include> $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
+target_compile_definitions(terminfo-data PRIVATE CPP_TERMINFO_EXPORTS)
 
 add_library(cpp-terminfo INTERFACE)
 target_link_libraries(cpp-terminfo INTERFACE terminfo terminfo-data)
