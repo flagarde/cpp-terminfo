@@ -14,9 +14,9 @@
 #include "cpp-terminfo/Type.hpp"
 
 #include <cstdint>
-#include <iostream>
 #include <map>
 #include <set>
+
 namespace Terminfo
 {
 class Terminfo

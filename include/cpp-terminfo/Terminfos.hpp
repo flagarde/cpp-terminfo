@@ -15,10 +15,11 @@
 
 namespace Terminfo
 {
+
 class Terminfos
 {
 public:
-  Terminfos(const std::vector<std::reference_wrapper<Terminfo>>& term) : m_terminfos(term) {};
+  Terminfos() = default;
   const Terminfo* getTerminfo(const std::string& term) const
   {
     for(std::size_t i = 0; i != m_terminfos.size(); ++i)
@@ -29,6 +30,13 @@ public:
   }
 
 private:
-  std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
+  static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
+
+inline const Terminfo* get(const std::string& term)
+{
+  static Terminfos m_terminfos{};
+  return m_terminfos.getTerminfo(term);
+}
+
 }  // namespace Terminfo

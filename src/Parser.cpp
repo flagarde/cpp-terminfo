@@ -86,12 +86,13 @@ void Terminfo::Parser::parse()
     if(fs.is_open()) fs.close();
     if(!capabilities_lines.empty()) parseCapabilities(capabilities_lines);
   }
-  for(std::map<std::string, std::vector<std::string>>::iterator it=m_need_reparse.begin();it!=m_need_reparse.end();++it)
+  for(std::map<std::string, std::vector<std::string>>::iterator it = m_need_reparse.begin(); it != m_need_reparse.end(); ++it) { std::reverse(it->second.begin(), it->second.end()); }
+  std::cout << m_need_reparse.size() << std::endl;
+  while(!m_need_reparse.empty())
   {
-    std::reverse(it->second.begin(),it->second.end());
+    resolveUses();
+    std::cout << m_need_reparse.size() << std::endl;
   }
-  std::cout<<m_need_reparse.size()<<std::endl;
-  while(!m_need_reparse.empty()) { resolveUses(); std::cout<<m_need_reparse.size()<<std::endl;}
   resolveDeletes();
 }
 
@@ -123,9 +124,8 @@ void Terminfo::Parser::parseCapability(const std::string& line)
   if(line[0] == 'O' && line[1] == 'T') return;  // obsolete capability
   try
   {
-    static Capabilities      capabilities;
-    std::vector<std::string> m_to_remove;
-    std::size_t              pos = line.find('=');
+    static Capabilities capabilities;
+    std::size_t         pos = line.find('=');
     if(pos != std::string::npos)  // is a string
     {
       std::string key   = line.substr(0, pos);
@@ -173,27 +173,24 @@ void Terminfo::Parser::parseCapability(const std::string& line)
   {
     std::cout << exception.what() << std::endl;
   }
-  catch(const std::string& str)
-  {
-    std::cout << "****" << str << "*****" << std::endl;
-  }
 }
 
 void Terminfo::Parser::resolveUses()
 {
   std::map<std::string, std::vector<std::string>> temp;
-  
+
   for(std::map<std::string, std::vector<std::string>>::iterator it = m_need_reparse.begin(); it != m_need_reparse.end(); ++it)
   {
     std::vector<std::string> temp_vec;
-    for(std::size_t i =0; i!=it->second.size(); ++i)
+    for(std::size_t i = 0; i != it->second.size(); ++i)
     {
       if(m_need_reparse.find(it->second[i]) == m_need_reparse.end()) m_infos[getTerminfo(it->first)].add(m_infos[getTerminfo(it->second[i])]);
-      else temp_vec.push_back(it->second[i]);
+      else
+        temp_vec.push_back(it->second[i]);
     }
-    if(!temp_vec.empty()) temp[it->first]=temp_vec;
+    if(!temp_vec.empty()) temp[it->first] = temp_vec;
   }
-  m_need_reparse=temp;
+  m_need_reparse = temp;
 }
 
 void Terminfo::Parser::resolveDeletes()

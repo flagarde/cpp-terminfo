@@ -433,9 +433,7 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_strings_size> T
   Capability{String::parm_up_micro, "mcuu", "Like parm_up_cursor in micro mode"},
   Capability{String::select_char_set, "scs", "Select character set, #1"},
   Capability{String::set_bottom_margin, "smgb", "Set bottom margin at current line"},
-  Capability{String::set_bottom_margin_parm, "smgbp",
-             "Set bottom margin at line #1 or (if smgtp is not given) #2 "
-             "lines from bottom"},
+  Capability{String::set_bottom_margin_parm, "smgbp", "Set bottom margin at line #1 or (if smgtp is not given) #2 lines from bottom"},
   Capability{String::set_left_margin_parm, "smglp", "Set left (right) margin at column #1"},
   Capability{String::set_right_margin_parm, "smgrp", "Set right margin at column #1"},
   Capability{String::set_top_margin, "smgt", "Set top margin at current line"},
@@ -462,9 +460,7 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_strings_size> T
   Capability{String::set1_des_seq, "s1ds", "Shift to codeset 1"},
   Capability{String::set2_des_seq, "s2ds", "Shift to codeset 2"},
   Capability{String::set3_des_seq, "s3ds", "Shift to codeset 3"},
-  Capability{String::set_lr_margin, "smglr",
-             "Set both left and right margins to #1, #2.  (ML is not in "
-             "BSD termcap)."},
+  Capability{String::set_lr_margin, "smglr", "Set both left and right margins to #1, #2.  (ML is not in BSD termcap)."},
   Capability{String::set_tb_margin, "smgtb", "Sets both top and bottom margins to #1, #2"},
   Capability{String::bit_image_repeat, "birep", "Repeat bit image cell #1 #2 times"},
   Capability{String::bit_image_newline, "binel", "Move to next row of the bit image"},
@@ -489,9 +485,7 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_strings_size> T
   Capability{String::enter_top_hl_mode, "ethlm", "Enter top highlight mode"},
   Capability{String::enter_vertical_hl_mode, "evhlm", "Enter vertical highlight mode"},
   Capability{String::set_a_attributes, "sgr1", "Define second set of video attributes #1-#6"},
-  Capability{String::set_pglen_inch, "slength",
-             "Set page length to #1 hundredth of an inch (some "
-             "implementations use sL for termcap)."},
+  Capability{String::set_pglen_inch, "slength", "Set page length to #1 hundredth of an inch (some implementations use sL for termcap)."},
   // Others
   Capability{String::set_underline_color, "setal", "set (under)line color"},
   Capability{String::lock_memory_above_cursor, "meml", "locks memory above the cursor (ala HP terminals)"},

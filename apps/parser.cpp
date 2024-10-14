@@ -21,34 +21,15 @@ public:
   Writer() = default;
   Writer(const std::string& filename) : m_filename(filename) {}
   void setTerminfos(const std::vector<Terminfo::Terminfo>& info) { m_infos = info; }
-  void write()
-  {
-    writeCPP();
-    writeHeader();
-  };
+  void write() { writeCPP(); };
 
 private:
   void                            writeCPP();
-  void                            writeHeader();
   std::string                     m_cpp_path{"./"};
   std::string                     m_header_path{"./include/cpp-terminfo/"};
   std::string                     m_filename;
   std::vector<Terminfo::Terminfo> m_infos;
 };
-
-void Writer::writeHeader()
-{
-  // std::ofstream outfile (m_header_path+m_filename+".hpp");
-  // outfile<< R"(#include "cpp-terminfo/Terminfos.hpp")";
-  // outfile<<"\nnamespace Terminfo {\n";
-  // outfile<<"extern std::vector<std::reference_wrapper<Terminfo>> m_inf;\n";
-  // outfile<<"inline const Terminfo* get(const std::string& term){\n";
-  // outfile<<"static Terminfos m_terminfos(m_inf);\n";
-  // outfile<<"  return m_terminfos.getTerminfo(term);\n";
-  // outfile<<"}";
-  // outfile<<"}\n";
-  // outfile.close();
-}
 
 void Writer::writeCPP()
 {
@@ -124,7 +105,7 @@ void Writer::writeCPP()
   }
 
   std::ofstream outfile(m_cpp_path + m_filename + ".cpp");
-  outfile << "#include \"cpp-terminfo/Data.hpp\"\n";
+  outfile << "#include \"cpp-terminfo/Terminfos.hpp\"\n";
   std::string term_list;
   for(int i = 0; i != m_infos.size(); ++i)
   {
@@ -137,9 +118,7 @@ void Writer::writeCPP()
     term_list += ",";
   }
   if(term_list.size() > 1) term_list.pop_back();
-  outfile << "std::vector<std::reference_wrapper<Terminfo::Terminfo>> "
-             "Terminfo::m_inf{"
-          << term_list << "};\n";
+  outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
   outfile.close();
 }
 

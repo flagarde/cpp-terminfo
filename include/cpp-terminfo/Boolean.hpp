@@ -15,7 +15,7 @@ namespace Terminfo
 
 enum class Boolean : std::uint8_t
 {
-  auto_left_margin = 1,
+  auto_left_margin,
   auto_right_margin,
   no_esc_ctlc,
   ceol_standout_glitch,

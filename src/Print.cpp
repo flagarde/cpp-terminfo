@@ -24,12 +24,12 @@ std::ostream& Terminfo::operator<<(std::ostream& os, const Terminfo* term)
   }
   const std::set<Boolean> bools = term->getBooleans();
   os << "  booleans : \n";
-  for(std::set<Boolean>::const_iterator it = bools.cbegin(); it != bools.cend(); ++it) { os << "    " << cap.get(*it).name() << '\n'; }
+  for(std::set<Boolean>::const_iterator it = bools.cbegin(); it != bools.cend(); ++it) { os << "    " << cap.get(*it).name() << "  (" << cap.get(*it).description() << ")\n"; }
   const std::map<Integer, std::uint16_t> integers = term->getIntegers();
   os << "  integers : \n";
-  for(std::map<Integer, std::uint16_t>::const_iterator it = integers.cbegin(); it != integers.cend(); ++it) { os << "    " << cap.get(it->first).name() << " : " << it->second << '\n'; }
+  for(std::map<Integer, std::uint16_t>::const_iterator it = integers.cbegin(); it != integers.cend(); ++it) { os << "    " << cap.get(it->first).name() << " : " << it->second << "  (" << cap.get(it->first).description() << ")\n"; }
   const std::map<String, std::string> strings = term->getStrings();
   os << "  strings : \n";
-  for(std::map<String, std::string>::const_iterator it = strings.cbegin(); it != strings.cend(); ++it) { os << "    " << cap.get(it->first).name() << " : " << it->second << '\n'; }
+  for(std::map<String, std::string>::const_iterator it = strings.cbegin(); it != strings.cend(); ++it) { os << "    " << cap.get(it->first).name() << " : " << it->second << "  (" << cap.get(it->first).description() << ")\n"; }
   return os;
 }
