@@ -15,6 +15,7 @@ foreach(TERMINAL IN LISTS LINES)
   endif()
 endforeach()
 list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/9term.cpp")
+list(APPEND TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/nineterm.cpp")
 # Because eterm and Eterm exist so in system with uncase filesystem there is a mess
 list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/Eterm.cpp")
 list(APPEND TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/mEterm.cpp")
@@ -23,7 +24,6 @@ list(SORT TERMINAL_FILES CASE INSENSITIVE)
 add_custom_command(OUTPUT ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Get.cpp"  COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Get
                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/generated"
                    COMMENT "Generate Get.cpp")
-#add_custom_target(data DEPENDS ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Data.cpp")
 add_library(terminfo-data SHARED "${PROJECT_BINARY_DIR}/generated/Get.cpp" "${TERMINAL_FILES}")
 target_compile_definitions(terminfo PRIVATE BUILDING_DLL)
 target_include_directories(terminfo-data PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/generated/include> $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)

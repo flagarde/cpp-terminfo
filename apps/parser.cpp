@@ -33,8 +33,8 @@ private:
 
 void Writer::writeCPP()
 {
-  std::vector<std::string>           ignore{"9term"};
-  std::map<std::string, std::string> replace{{"Eterm", "mEterm"}};
+  std::vector<std::string>           ignore{""};
+  std::map<std::string, std::string> replace{{"Eterm", "mEterm"}, {"9term", "nineterm"}};
   for(int i = 0; i != m_infos.size(); ++i)
   {
     if(m_infos[i].getType().name().find('+') != std::string::npos || std::find(ignore.begin(), ignore.end(), m_infos[i].getType().name()) != ignore.end()) continue;
@@ -89,9 +89,7 @@ void Writer::writeCPP()
             << inte << ",\n"
             << str << "\n);";
 
-    header << "#pragma once\n#include \"cpp-terminfo/Terminfo.hpp\"\nextern "
-              "Terminfo::Terminfo t"
-           << std::to_string(i + 1) << ";";
+    header << "#pragma once\nextern Terminfo::Terminfo t" << std::to_string(i + 1) << ";";
     outfile.close();
     header.close();
   }
