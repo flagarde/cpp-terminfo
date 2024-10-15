@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
   std::cout << "Insert a terminal name " << std::endl;
   while(std::cin >> name)
   {
-    const Terminfo::Terminfo* terminfo = Terminfo::get(name);
+    const Terminfo::Terminfo* terminfo = Terminfo::Terminfos::getTerminfo(name);
     if(terminfo) std::cout << terminfo;
     else
       std::cout << name << " not in terminfo database !" << std::endl;

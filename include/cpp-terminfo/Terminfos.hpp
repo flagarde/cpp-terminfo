@@ -31,15 +31,6 @@ class DLL_EXPORT Terminfos
 public:
   Terminfos() = default;
   static const Terminfo* getTerminfo(const std::string& term);
-
-private:
-  static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
-
-inline const Terminfo* get(const std::string& term)
-{
-  static Terminfos m_terminfos{};
-  return m_terminfos.getTerminfo(term);
-}
 
 }  // namespace Terminfo

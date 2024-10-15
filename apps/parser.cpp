@@ -118,24 +118,9 @@ void Writer::writeCPP()
     term_list += ",";
   }
   if(term_list.size() > 1) term_list.pop_back();
-  outfile << "#ifdef _WIN32\n";
-  outfile << "#ifdef BUILDING_DLL\n";
-  outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
-  outfile << "#endif\n";
-  outfile << "#else\n";
-  outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
-  outfile << "#endif\n";
-  outfile << R"(
-  const Terminfo::Terminfo* Terminfo::Terminfos::getTerminfo(const std::string& term)
-  {
-    for(std::size_t i = 0; i != m_terminfos.size(); ++i)
-    {
-      if(m_terminfos[i].get().getType().isAlias(term)) { return &m_terminfos[i].get(); }
-    }
-    return nullptr;
-  }
-  )";
-
+  outfile << "const Terminfo::Terminfo* Terminfo::Terminfos::getTerminfo(const std::string& term)\n{";
+  outfile << "static std::vector<std::reference_wrapper<Terminfo>> m_terminfos{" << term_list << "};\n";
+  outfile << "for(std::size_t i = 0; i != m_terminfos.size(); ++i)\n{\nif(m_terminfos[i].get().getType().isAlias(term)) return &m_terminfos[i].get();\n}\nreturn nullptr;\n}\n";
   outfile.close();
 }
 
