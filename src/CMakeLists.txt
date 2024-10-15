@@ -20,13 +20,14 @@ list(REMOVE_ITEM TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/Eterm
 list(APPEND TERMINAL_FILES "${PROJECT_BINARY_DIR}/generated/terminals/mEterm.cpp")
 list(SORT TERMINAL_FILES CASE INSENSITIVE)
 
-add_custom_command(OUTPUT ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Data.cpp"  COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Data
+add_custom_command(OUTPUT ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Terminfos.cpp"  COMMAND parser "${CMAKE_BINARY_DIR}/terminfo.src" Terminfos
                    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/generated"
-                   COMMENT "Parsing and generating Data.cpp Data.hpp")
+                   COMMENT "Parsing and generating Terminfos.cpp")
 #add_custom_target(data DEPENDS ${TERMINAL_FILES} "${PROJECT_BINARY_DIR}/generated/Data.cpp")
-add_library(terminfo-data SHARED "${PROJECT_BINARY_DIR}/generated/Data.cpp" "${TERMINAL_FILES}")
+add_library(terminfo-data SHARED "${PROJECT_BINARY_DIR}/generated/Terminfos.cpp" "${TERMINAL_FILES}")
+target_compile_definitions(terminfo PRIVATE BUILDING_DLL)
 target_include_directories(terminfo-data PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/generated/include> $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
-target_compile_definitions(terminfo-data PRIVATE BUILDING_CPP_TERMINFO)
+target_link_libraries(terminfo-data PRIVATE terminfo)
 
 add_library(cpp-terminfo INTERFACE)
 target_link_libraries(cpp-terminfo INTERFACE terminfo terminfo-data)
