@@ -33,9 +33,9 @@ public:
   void                             remove(const Boolean& boolean) { m_booleans.erase(boolean); }
   void                             remove(const Integer& integer) { m_integers.erase(integer); }
   void                             remove(const String& string) { m_strings.erase(string); }
-  bool                             get(const Boolean& boolean) { return m_booleans.find(boolean) != m_booleans.end(); }
-  std::uint16_t                    get(const Integer& integer) { return m_integers[integer]; }
-  std::string                      get(const String& string) { return m_strings[string]; }
+  bool                             get(const Boolean& boolean) const { return m_booleans.find(boolean) != m_booleans.end(); }
+  const std::uint16_t&             get(const Integer& integer) const { return m_integers.at(integer); }
+  const std::string&               get(const String& string) const { return m_strings.at(string); }
   std::set<Boolean>                getBooleans() const { return m_booleans; }
   std::map<Integer, std::uint16_t> getIntegers() const { return m_integers; }
   std::map<String, std::string>    getStrings() const { return m_strings; }

@@ -1,5 +1,8 @@
 ---
 default: true
 no-trailing-spaces: true
+line_length:
+  line_length: 250
+  tables: false
 no-inline-html:
   allowed_elements: [h1]
