@@ -30,7 +30,7 @@ class DLL_EXPORT Terminfos
 {
 public:
   Terminfos() = default;
-  DLL_EXPORT static const Terminfo* getTerminfo(const std::string& term)
+  static DLL_EXPORT const Terminfo* getTerminfo(const std::string& term)
   {
     for(std::size_t i = 0; i != m_terminfos.size(); ++i)
     {
@@ -40,7 +40,7 @@ public:
   }
 
 private:
-  static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
+  static DLL_EXPORT const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
 
 DLL_EXPORT inline const Terminfo* get(const std::string& term)
