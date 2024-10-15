@@ -40,7 +40,7 @@ public:
   }
 
 private:
-  static DLL_EXPORT const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
+  static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;
 };
 
 inline const Terminfo* get(const std::string& term)
