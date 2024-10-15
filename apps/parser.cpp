@@ -118,7 +118,14 @@ void Writer::writeCPP()
     term_list += ",";
   }
   if(term_list.size() > 1) term_list.pop_back();
+  outfile << "#ifdef _WIN32\n";
+  outfile << "#ifdef BUILDING_DLL\n";
   outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
+  outfile << "#endif\n";
+  outfile << "#else\n";
+  outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
+  outfile << "#endif\n";
+
   outfile.close();
 }
 
