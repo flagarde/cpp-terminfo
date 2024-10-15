@@ -26,11 +26,11 @@
 namespace Terminfo
 {
 
-class DLL_EXPORT Terminfos
+class DLL_EXPORT Get
 {
 public:
-  Terminfos() = default;
-  static const Terminfo* getTerminfo(const std::string& term);
+  Get() = default;
+  static const Terminfo& terminfo(const std::string& term);
 };
 
 }  // namespace Terminfo

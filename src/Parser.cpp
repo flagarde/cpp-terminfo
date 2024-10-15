@@ -87,12 +87,7 @@ void Terminfo::Parser::parse()
     if(!capabilities_lines.empty()) parseCapabilities(capabilities_lines);
   }
   for(std::map<std::string, std::vector<std::string>>::iterator it = m_need_reparse.begin(); it != m_need_reparse.end(); ++it) { std::reverse(it->second.begin(), it->second.end()); }
-  std::cout << m_need_reparse.size() << std::endl;
-  while(!m_need_reparse.empty())
-  {
-    resolveUses();
-    std::cout << m_need_reparse.size() << std::endl;
-  }
+  while(!m_need_reparse.empty()) { resolveUses(); }
   resolveDeletes();
 }
 

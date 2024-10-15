@@ -7,8 +7,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+#include "cpp-terminfo/Get.hpp"
 #include "cpp-terminfo/Print.hpp"
-#include "cpp-terminfo/Terminfos.hpp"
 
 #include <iostream>
 
@@ -18,10 +18,16 @@ int main(int argc, char* argv[])
   std::cout << "Insert a terminal name " << std::endl;
   while(std::cin >> name)
   {
-    const Terminfo::Terminfo* terminfo = Terminfo::Terminfos::getTerminfo(name);
-    if(terminfo) std::cout << terminfo;
-    else
-      std::cout << name << " not in terminfo database !" << std::endl;
-    std::cout << "Insert a terminal name " << std::endl;
+    try
+    {
+      const Terminfo::Terminfo& terminfo = Terminfo::Get::terminfo(name);
+      std::cout << terminfo;
+      std::cout << "Insert a terminal name " << std::endl;
+    }
+    catch(const std::out_of_range& e)
+    {
+      std::cout << "!!! " << e.what() << " !!!" << std::endl;
+      std::cout << "Insert a terminal name " << std::endl;
+    }
   };
 }

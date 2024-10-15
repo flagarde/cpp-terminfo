@@ -39,11 +39,7 @@ void Writer::writeCPP()
   {
     if(m_infos[i].getType().name().find('+') != std::string::npos || std::find(ignore.begin(), ignore.end(), m_infos[i].getType().name()) != ignore.end()) continue;
     std::string name = m_infos[i].getType().name();
-    if(replace.find(name) != replace.end())
-    {
-      name = replace.find(name)->second;
-      std::cout << name << std::endl;
-    }
+    if(replace.find(name) != replace.end()) { name = replace.find(name)->second; }
     std::ofstream outfile(m_cpp_path + "terminals/" + name + ".cpp");
     std::ofstream header(m_cpp_path + "include/cpp-terminfo/" + name + ".hpp");
     outfile << "// terminal : " << m_infos[i].getType().name() << "\n";
@@ -64,8 +60,6 @@ void Writer::writeCPP()
     if(booleans.size() > 1) booleans.pop_back();
     booleans += "}";
     std::string                                      inte     = "{";
-    // outfile<<"const static std::map<Integer,std::uint16_t>
-    // i"<<std::to_string(i)<<"{";
     const std::map<Terminfo::Integer, std::uint16_t> integers = m_infos[i].getIntegers();
     for(std::map<Terminfo::Integer, std::uint16_t>::const_iterator it = integers.cbegin(); it != integers.cend(); ++it)
     {
@@ -77,8 +71,6 @@ void Writer::writeCPP()
     }
     if(inte.size() > 1) inte.pop_back();
     inte += "}";
-    // outfile<<"const static std::map<String,std::string>
-    // s"<<std::to_string(i)<<"{";
     const std::map<Terminfo::String, std::string> strings = m_infos[i].getStrings();
     std::string                                   str     = "{";
     for(std::map<Terminfo::String, std::string>::const_iterator it = strings.cbegin(); it != strings.cend(); ++it)
@@ -105,7 +97,8 @@ void Writer::writeCPP()
   }
 
   std::ofstream outfile(m_cpp_path + m_filename + ".cpp");
-  outfile << "#include \"cpp-terminfo/Terminfos.hpp\"\n";
+  outfile << "#include \"cpp-terminfo/Get.hpp\"\n";
+  outfile << "#include <stdexcept>\n";
   std::string term_list;
   for(int i = 0; i != m_infos.size(); ++i)
   {
@@ -118,9 +111,9 @@ void Writer::writeCPP()
     term_list += ",";
   }
   if(term_list.size() > 1) term_list.pop_back();
-  outfile << "const Terminfo::Terminfo* Terminfo::Terminfos::getTerminfo(const std::string& term)\n{";
+  outfile << "const Terminfo::Terminfo& Terminfo::Get::terminfo(const std::string& term)\n{";
   outfile << "static std::vector<std::reference_wrapper<Terminfo>> m_terminfos{" << term_list << "};\n";
-  outfile << "for(std::size_t i = 0; i != m_terminfos.size(); ++i)\n{\nif(m_terminfos[i].get().getType().isAlias(term)) return &m_terminfos[i].get();\n}\nreturn nullptr;\n}\n";
+  outfile << "for(std::size_t i = 0; i != m_terminfos.size(); ++i)\n{\nif(m_terminfos[i].get().getType().isAlias(term)) return m_terminfos[i].get();\n}\nthrow std::out_of_range(term+\" not known\");\n}\n";
   outfile.close();
 }
 

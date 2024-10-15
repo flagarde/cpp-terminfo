@@ -14,7 +14,6 @@ namespace Terminfo
 {
 
 class Terminfo;
-
-std::ostream& operator<<(std::ostream& os, const Terminfo* iss);
+std::ostream& operator<<(std::ostream& os, const Terminfo& iss);
 
 }  // namespace Terminfo
