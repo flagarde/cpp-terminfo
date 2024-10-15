@@ -30,14 +30,7 @@ class DLL_EXPORT Terminfos
 {
 public:
   Terminfos() = default;
-  inline static const Terminfo* getTerminfo(const std::string& term)
-  {
-    for(std::size_t i = 0; i != m_terminfos.size(); ++i)
-    {
-      if(m_terminfos[i].get().getType().isAlias(term)) { return &m_terminfos[i].get(); }
-    }
-    return nullptr;
-  }
+  static const Terminfo* getTerminfo(const std::string& term);
 
 private:
   static const std::vector<std::reference_wrapper<Terminfo>> m_terminfos;

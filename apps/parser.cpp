@@ -125,6 +125,16 @@ void Writer::writeCPP()
   outfile << "#else\n";
   outfile << "const std::vector<std::reference_wrapper<Terminfo::Terminfo>> Terminfo::Terminfos::m_terminfos{" << term_list << "};\n";
   outfile << "#endif\n";
+  outfile << R"(
+  const Terminfo::Terminfo* Terminfo::Terminfos::getTerminfo(const std::string& term)
+  {
+    for(std::size_t i = 0; i != m_terminfos.size(); ++i)
+    {
+      if(m_terminfos[i].get().getType().isAlias(term)) { return &m_terminfos[i].get(); }
+    }
+    return nullptr;
+  }
+  )";
 
   outfile.close();
 }
