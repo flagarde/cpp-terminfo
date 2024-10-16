@@ -41,7 +41,7 @@ install(FILES
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Print.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/String.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Terminfo.hpp"
-        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Terminfos.hpp"
+        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Get.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Type.hpp"
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/cpp-terminfo")
 install(TARGETS terminfo terminfo-data cpp-terminfo
