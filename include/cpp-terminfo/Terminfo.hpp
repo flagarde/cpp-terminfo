@@ -19,6 +19,7 @@
 
 namespace Terminfo
 {
+
 class Terminfo
 {
 public:
@@ -46,4 +47,5 @@ private:
   std::map<String, std::string>    m_strings;
   Type                             m_type;
 };
+
 }  // namespace Terminfo

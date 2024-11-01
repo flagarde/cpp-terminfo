@@ -9,12 +9,11 @@
 
 #pragma once
 
-#include "cpp-terminfo/Capability.hpp"
 #include "cpp-terminfo/Terminfo.hpp"
 
 #include <map>
+#include <stdexcept>
 #include <string>
-#include <utility>
 
 namespace Terminfo
 {
@@ -29,21 +28,21 @@ public:
     String,
   };
   Parser() { m_infos.reserve(2 << 10); }  // 1833 but use 2^x
-  Parser(const std::string& file) : m_file(file) {};
+  explicit Parser(const std::string& file) : m_file(file) {};
   void                               parse();
   std::vector<Terminfo>              getTerminfos() { return m_infos; }
   bool                               hasUnknown() { return !m_unknown.empty(); }
   const std::map<std::string, Type>& getUnknown() const noexcept { return m_unknown; };
 
 private:
-  void parseType(const std::string& line);
-  void parseCapabilities(std::string& line);
-  void parseCapability(const std::string& line);
-  int  getTerminfo(const std::string& str)
+  void        parseType(const std::string& line);
+  void        parseCapabilities(std::string& line);
+  void        parseCapability(const std::string& line);
+  std::size_t getTerminfo(const std::string& str)
   {
     for(std::size_t i = 0; i != m_infos.size(); ++i)
       if(m_infos[i].getType().isAlias(str)) return i;
-    return -1;
+    throw std::out_of_range(str);
   }
   void                                            resolveUses();
   void                                            resolveDeletes();

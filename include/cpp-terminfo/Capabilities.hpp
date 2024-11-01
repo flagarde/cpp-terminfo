@@ -12,12 +12,11 @@
 
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <string>
-#include <vector>
 
 namespace Terminfo
 {
+
 class Capabilities
 {
 private:

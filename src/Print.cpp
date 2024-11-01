@@ -12,6 +12,8 @@
 #include "cpp-terminfo/Capabilities.hpp"
 #include "cpp-terminfo/Terminfo.hpp"
 
+#include <ostream>
+
 std::ostream& Terminfo::operator<<(std::ostream& os, const Terminfo& term)
 {
   static const Capabilities cap{};

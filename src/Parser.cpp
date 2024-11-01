@@ -10,11 +10,9 @@
 #include "cpp-terminfo/Parser.hpp"
 
 #include "cpp-terminfo/Capabilities.hpp"
-#include "cpp-terminfo/Capability.hpp"
 
 #include <algorithm>
 #include <fstream>
-#include <iostream>
 #include <limits>
 #include <string>
 #include <vector>
@@ -117,57 +115,50 @@ void Terminfo::Parser::parseCapability(const std::string& line)
 {
   if(line[0] == '.') return;                    // commented capability
   if(line[0] == 'O' && line[1] == 'T') return;  // obsolete capability
-  try
+  static Capabilities capabilities;
+  std::size_t         pos = line.find('=');
+  if(pos != std::string::npos)  // is a string
   {
-    static Capabilities capabilities;
-    std::size_t         pos = line.find('=');
-    if(pos != std::string::npos)  // is a string
+    std::string key   = line.substr(0, pos);
+    std::string value = line.substr(pos + 1, line.size());
+    if(key == "use")
     {
-      std::string key   = line.substr(0, pos);
-      std::string value = line.substr(pos + 1, line.size());
-      if(key == "use")
-      {
-        m_need_reparse[m_infos[m_infos.size() - 1].getType().name()].push_back(value);
-        return;
-      }
-      if(capabilities.know(key))
-      {
-        String string = capabilities.getString(key);
-        m_infos[m_infos.size() - 1].addString(string, value);
-      }
-      else
-        m_unknown[key] = Type::String;
+      m_need_reparse[m_infos[m_infos.size() - 1].getType().name()].push_back(value);
       return;
     }
-    pos = line.find('#');
-    if(pos != std::string::npos)  // is an integer
+    if(capabilities.know(key))
     {
-      std::string key = line.substr(0, pos);
-      if(capabilities.know(key))
-      {
-        std::string value   = line.substr(pos + 1, line.size());
-        Integer     integer = capabilities.getInteger(key);
-        m_infos[m_infos.size() - 1].addInteger(integer, stoi(value));
-      }
-      else
-        m_unknown[key] = Type::Integer;
-      return;
+      String string = capabilities.getString(key);
+      m_infos[m_infos.size() - 1].addString(string, value);
     }
-    pos = line.find('@');  // is a removed capability
-    if(pos != std::string::npos)
-    {
-      m_need_delete[m_infos[m_infos.size() - 1].getType().name()].push_back(line.substr(0, line.size() - 1));
-      return;
-    }
-    // is a boolean
-    if(capabilities.know(line)) m_infos[m_infos.size() - 1].addBoolean(capabilities.getBoolean(line));
     else
-      m_unknown[line] = Type::Boolean;
+      m_unknown[key] = Type::String;
+    return;
   }
-  catch(const std::out_of_range& exception)
+  pos = line.find('#');
+  if(pos != std::string::npos)  // is an integer
   {
-    std::cout << exception.what() << std::endl;
+    std::string key = line.substr(0, pos);
+    if(capabilities.know(key))
+    {
+      std::string value   = line.substr(pos + 1, line.size());
+      Integer     integer = capabilities.getInteger(key);
+      m_infos[m_infos.size() - 1].addInteger(integer, stoi(value));
+    }
+    else
+      m_unknown[key] = Type::Integer;
+    return;
   }
+  pos = line.find('@');  // is a removed capability
+  if(pos != std::string::npos)
+  {
+    m_need_delete[m_infos[m_infos.size() - 1].getType().name()].push_back(line.substr(0, line.size() - 1));
+    return;
+  }
+  // is a boolean
+  if(capabilities.know(line)) m_infos[m_infos.size() - 1].addBoolean(capabilities.getBoolean(line));
+  else
+    m_unknown[line] = Type::Boolean;
 }
 
 void Terminfo::Parser::resolveUses()
@@ -201,7 +192,7 @@ void Terminfo::Parser::resolveDeletes()
         if(capabilities.isBoolean(find->second[j])) m_infos[i].remove(capabilities.getBoolean(find->second[j]));
         else if(capabilities.isInteger(find->second[j]))
           m_infos[i].remove(capabilities.getInteger(find->second[j]));
-        else
+        else if(capabilities.isString(find->second[j]))
           m_infos[i].remove(capabilities.getString(find->second[j]));
       }
     }

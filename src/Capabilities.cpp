@@ -12,7 +12,6 @@
 #include "cpp-terminfo/Boolean.hpp"
 
 #include <algorithm>
-#include <iostream>
 #include <stdexcept>
 
 const std::array<Terminfo::BooleanCapability, Terminfo::Capabilities::m_booleans_size> Terminfo::Capabilities::m_booleans{
