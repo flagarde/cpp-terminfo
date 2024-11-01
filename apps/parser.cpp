@@ -128,21 +128,21 @@ int main(int argc, char* argv[])
 
   if(parser.hasUnknown())
   {
-    for(std::map<std::string, Terminfo::Capability::Type>::const_iterator it = parser.getUnknown().cbegin(); it != parser.getUnknown().cend(); ++it)
+    for(std::map<std::string, Terminfo::Parser::Type>::const_iterator it = parser.getUnknown().cbegin(); it != parser.getUnknown().cend(); ++it)
     {
       switch(it->second)
       {
-        case Terminfo::Capability::Type::boolean:
+        case Terminfo::Parser::Type::Boolean:
         {
           std::cout << "boolean capability " << it->first << " unknown !" << std::endl;
           break;
         }
-        case Terminfo::Capability::Type::integer:
+        case Terminfo::Parser::Type::Integer:
         {
           std::cout << "integer capability " << it->first << " unknown !" << std::endl;
           break;
         }
-        case Terminfo::Capability::Type::string:
+        case Terminfo::Parser::Type::String:
         {
           std::cout << "string capability " << it->first << " unknown !" << std::endl;
           break;

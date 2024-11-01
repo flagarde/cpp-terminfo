@@ -12,40 +12,29 @@
 #include "cpp-terminfo/Integer.hpp"
 #include "cpp-terminfo/String.hpp"
 
-#include <cstdint>
 #include <string>
 
 namespace Terminfo
 {
-class Capability
+
+template<typename type_id> class Capability
 {
 public:
-  enum class Type : std::uint8_t
-  {
-    boolean,
-    integer,
-    string,
-    not_yet  // ##FIXME
-  };
   Capability() = default;
-  inline explicit Capability(const Boolean& val, const std::string& name, const std::string& desc) : m_name(name), m_description(desc), m_type(Type::boolean), m_value(static_cast<std::uint8_t>(val)) {};
-  inline explicit Capability(const Integer& val, const std::string& name, const std::string& desc) : m_name(name), m_description(desc), m_type(Type::integer), m_value(static_cast<std::uint8_t>(val)) {};
-  inline explicit Capability(const String& val, const std::string& name, const std::string& desc) : m_name(name), m_description(desc), m_type(Type::string), m_value(static_cast<std::uint16_t>(val)) {};
-  inline std::string   description() const noexcept { return m_description; }
-  inline std::string   name() const noexcept { return m_name; }
-  inline std::uint16_t value() const noexcept { return m_value; }
-  inline Type          type() const noexcept { return m_type; }
-  inline bool          operator==(const std::string& str) const noexcept
-  {
-    if(m_name == str) return true;
-    else
-      return false;
-  }
+  inline explicit Capability(const type_id& id, const std::string& name, const std::string& description) : m_id(id), m_name(name), m_description(description) {};
+  inline std::string description() const noexcept { return m_description; }
+  inline std::string name() const noexcept { return m_name; }
+  inline type_id     id() const noexcept { return m_id; }
+  inline bool        operator==(const std::string& str) const noexcept { return m_name == str; }
 
 private:
-  std::string   m_name;
-  std::string   m_description;
-  Type          m_type;
-  std::uint16_t m_value;
+  std::string m_name;
+  std::string m_description;
+  type_id     m_id;
 };
+
+using BooleanCapability = Capability<Boolean>;
+using IntegerCapability = Capability<Integer>;
+using StringCapability  = Capability<String>;
+
 }  // namespace Terminfo

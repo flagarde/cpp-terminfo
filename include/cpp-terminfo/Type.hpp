@@ -29,12 +29,7 @@ public:
     ret.erase(ret.begin());
     return ret;
   }
-  bool isAlias(const std::string& str) const noexcept
-  {
-    if(std::find(m_aliases.begin(), m_aliases.end(), str) != m_aliases.end()) return true;
-    else
-      return false;
-  }
+  bool isAlias(const std::string& str) const noexcept { return std::find(m_aliases.begin(), m_aliases.end(), str) != m_aliases.end(); }
 
 private:
   std::string              m_descritpion;

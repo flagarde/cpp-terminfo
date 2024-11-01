@@ -136,7 +136,7 @@ void Terminfo::Parser::parseCapability(const std::string& line)
         m_infos[m_infos.size() - 1].addString(string, value);
       }
       else
-        m_unknown[key] = Capability::Type::string;
+        m_unknown[key] = Type::String;
       return;
     }
     pos = line.find('#');
@@ -150,7 +150,7 @@ void Terminfo::Parser::parseCapability(const std::string& line)
         m_infos[m_infos.size() - 1].addInteger(integer, stoi(value));
       }
       else
-        m_unknown[key] = Capability::Type::integer;
+        m_unknown[key] = Type::Integer;
       return;
     }
     pos = line.find('@');  // is a removed capability
@@ -162,7 +162,7 @@ void Terminfo::Parser::parseCapability(const std::string& line)
     // is a boolean
     if(capabilities.know(line)) m_infos[m_infos.size() - 1].addBoolean(capabilities.getBoolean(line));
     else
-      m_unknown[line] = Capability::Type::string;
+      m_unknown[line] = Type::Boolean;
   }
   catch(const std::out_of_range& exception)
   {
@@ -198,25 +198,11 @@ void Terminfo::Parser::resolveDeletes()
     {
       for(std::size_t j = 0; j != find->second.size(); ++j)
       {
-        switch(capabilities.type(find->second[j]))
-        {
-          case Capability::Type::boolean:
-          {
-            m_infos[i].remove(capabilities.getBoolean(find->second[j]));
-            break;
-          }
-          case Capability::Type::integer:
-          {
-            m_infos[i].remove(capabilities.getInteger(find->second[j]));
-            break;
-          }
-          case Capability::Type::string:
-          {
-            m_infos[i].remove(capabilities.getString(find->second[j]));
-            break;
-          }
-          default: break;
-        }
+        if(capabilities.isBoolean(find->second[j])) m_infos[i].remove(capabilities.getBoolean(find->second[j]));
+        else if(capabilities.isInteger(find->second[j]))
+          m_infos[i].remove(capabilities.getInteger(find->second[j]));
+        else
+          m_infos[i].remove(capabilities.getString(find->second[j]));
       }
     }
   }

@@ -9,11 +9,13 @@
 
 #include "cpp-terminfo/Capabilities.hpp"
 
+#include "cpp-terminfo/Boolean.hpp"
+
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
 
-const std::array<Terminfo::Capability, Terminfo::Capabilities::m_booleans_size> Terminfo::Capabilities::m_booleans{
+const std::array<Terminfo::BooleanCapability, Terminfo::Capabilities::m_booleans_size> Terminfo::Capabilities::m_booleans{
   // Booleans
   Capability{Boolean::auto_left_margin, "bw", "cub1 wraps from column 0 to last column"},
   Capability{Boolean::auto_right_margin, "am", "terminal has automatic margins"},
@@ -54,7 +56,7 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_booleans_size> 
   Capability{Boolean::lpi_changes_res, "lpix", "changing line pitch changes resolution"},
 };
 
-const std::array<Terminfo::Capability, Terminfo::Capabilities::m_intergers_size> Terminfo::Capabilities::m_integers{
+const std::array<Terminfo::IntegerCapability, Terminfo::Capabilities::m_intergers_size> Terminfo::Capabilities::m_integers{
   // Integers
   Capability{Integer::columns, "cols", "number of columns in a line"},
   Capability{Integer::init_tabs, "it", "tabs initially every # spaces"},
@@ -91,7 +93,7 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_intergers_size>
   Capability{Integer::bit_image_type, "bitype", "type of bit-image device"},
 };
 
-const std::array<Terminfo::Capability, Terminfo::Capabilities::m_strings_size> Terminfo::Capabilities::m_strings = {
+const std::array<Terminfo::StringCapability, Terminfo::Capabilities::m_strings_size> Terminfo::Capabilities::m_strings = {
   // Strings
   Capability{String::back_tab, "cbt", "back tab (P)"},
   Capability{String::bell, "bel", "audible signal (bell) (P)"},
@@ -504,20 +506,20 @@ const std::array<Terminfo::Capability, Terminfo::Capabilities::m_strings_size> T
 Terminfo::Boolean Terminfo::Capabilities::getBoolean(const std::string& str)
 {
   const boolean_const_iterator found = std::find(m_booleans.begin(), m_booleans.end(), str);
-  if(found != m_booleans.end()) return static_cast<Terminfo::Boolean>(found->value());
+  if(found != m_booleans.end()) return static_cast<Terminfo::Boolean>(found->id());
   throw std::out_of_range(str);
 }
 
 Terminfo::Integer Terminfo::Capabilities::getInteger(const std::string& str)
 {
   const integer_const_iterator found = std::find(m_integers.begin(), m_integers.end(), str);
-  if(std::find(m_integers.begin(), m_integers.end(), str) != m_integers.end()) return static_cast<Terminfo::Integer>(found->value());
+  if(std::find(m_integers.begin(), m_integers.end(), str) != m_integers.end()) return static_cast<Terminfo::Integer>(found->id());
   throw std::out_of_range(str);
 }
 
 Terminfo::String Terminfo::Capabilities::getString(const std::string& str)
 {
   const string_const_iterator found = std::find(m_strings.begin(), m_strings.end(), str);
-  if(found != m_strings.end()) return static_cast<Terminfo::String>(found->value());
+  if(found != m_strings.end()) return static_cast<Terminfo::String>(found->id());
   throw std::out_of_range(str);
 }
