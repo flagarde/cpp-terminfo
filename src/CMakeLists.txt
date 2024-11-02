@@ -33,13 +33,14 @@ add_library(cpp-terminfo INTERFACE)
 target_link_libraries(cpp-terminfo INTERFACE terminfo terminfo-data)
 add_library(cpp-terminfo::cpp-terminfo ALIAS cpp-terminfo)
 install(FILES
-        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Boolean.hpp"
+        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Bool.hpp"
+        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/BooleanId.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Capabilities.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Capability.hpp"
-        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Integer.hpp"
+        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/IntegerId.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Parser.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Print.hpp"
-        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/String.hpp"
+        "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/StringId.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Terminfo.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Get.hpp"
         "${PROJECT_SOURCE_DIR}/include/cpp-terminfo/Type.hpp"

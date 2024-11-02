@@ -8,6 +8,7 @@
  */
 
 #pragma once
+#include "cpp-terminfo/Bool.hpp"
 #include "cpp-terminfo/BooleanId.hpp"
 #include "cpp-terminfo/IntegerId.hpp"
 #include "cpp-terminfo/StringId.hpp"
@@ -34,12 +35,12 @@ public:
   void                 add(const IntegerId& id, const std::uint16_t& value) { m_integers[id] = {value}; }
   void                 add(const StringId& id, const std::string& value) { m_strings[id] = {value}; }
   void                 add(const Terminfo& rhs);
-  void                 remove(const BooleanId& boolean) { m_booleans.erase(boolean); }
-  void                 remove(const IntegerId& integer) { m_integers.erase(integer); }
-  void                 remove(const StringId& string) { m_strings.erase(string); }
-  bool                 get(const BooleanId& boolean) const { return m_booleans.find(boolean) != m_booleans.end(); }
-  const std::uint16_t& get(const IntegerId& integer) const { return m_integers.at(integer); }
-  const std::string&   get(const StringId& string) const { return m_strings.at(string); }
+  void                 remove(const BooleanId& id) { m_booleans.erase(id); }
+  void                 remove(const IntegerId& id) { m_integers.erase(id); }
+  void                 remove(const StringId& id) { m_strings.erase(id); }
+  Bool                 get(const BooleanId& id) const { return m_booleans.find(id) != m_booleans.end(); }
+  const std::uint16_t& get(const IntegerId& id) const { return m_integers.at(id); }
+  const std::string&   get(const StringId& id) const { return m_strings.at(id); }
   BooleansContainer    getBooleans() const { return m_booleans; }
   IntegersContainer    getIntegers() const { return m_integers; }
   StringsContainer     getStrings() const { return m_strings; }
