@@ -24,8 +24,8 @@ int main(int argc, char* argv[])
       std::cout << terminfo;
       std::cout << "Insert a terminal name " << std::endl;
 
-      std::cout << "Number of lines: " << terminfo.get(Terminfo::Integer::columns) << std::endl;
-      std::cout << "Has automatic margins: " << terminfo.get(Terminfo::Boolean::auto_right_margin) << std::endl;
+      std::cout << "Number of lines: " << terminfo.get(Terminfo::IntegerId::columns) << std::endl;
+      std::cout << "Has automatic margins: " << terminfo.get(Terminfo::BooleanId::auto_right_margin) << std::endl;
       std::cout << "Terminal description: " << terminfo.getType().description() << std::endl;
     }
     catch(const std::out_of_range& e)

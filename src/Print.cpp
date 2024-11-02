@@ -16,7 +16,7 @@
 
 std::ostream& Terminfo::operator<<(std::ostream& os, const Terminfo& term)
 {
-  static const Capabilities cap{};
+  static const Capabilities cap;
   os << term.getType().name() << ": " << term.getType().description() << '\n';
   if(term.getType().hasAlias())
   {
@@ -24,23 +24,23 @@ std::ostream& Terminfo::operator<<(std::ostream& os, const Terminfo& term)
     for(std::size_t i = 0; i != term.getType().aliases().size(); ++i) os << term.getType().aliases()[i] << " ";
     os << '\n';
   }
-  const std::set<Boolean> bools = term.getBooleans();
+  const Terminfo::Terminfo::BooleansContainer bools = term.getBooleans();
   os << "  *booleans:\n";
-  for(std::set<Boolean>::const_iterator it = bools.cbegin(); it != bools.cend(); ++it)
+  for(Terminfo::Terminfo::BooleansContainer::const_iterator it = bools.cbegin(); it != bools.cend(); ++it)
   {
     os << "    " << cap.get(*it).name() << "\n";
     os << "      (" << cap.get(*it).description() << ")\n";
   }
-  const std::map<Integer, std::uint16_t> integers = term.getIntegers();
+  const Terminfo::Terminfo::IntegersContainer integers = term.getIntegers();
   os << "  *integers:\n";
-  for(std::map<Integer, std::uint16_t>::const_iterator it = integers.cbegin(); it != integers.cend(); ++it)
+  for(Terminfo::Terminfo::IntegersContainer::const_iterator it = integers.cbegin(); it != integers.cend(); ++it)
   {
     os << "    " << cap.get(it->first).name() << ": " << it->second << "\n";
     os << "      (" << cap.get(it->first).description() << ")\n";
   }
-  const std::map<String, std::string> strings = term.getStrings();
+  const Terminfo::Terminfo::StringsContainer strings = term.getStrings();
   os << "   *strings:\n";
-  for(std::map<String, std::string>::const_iterator it = strings.cbegin(); it != strings.cend(); ++it)
+  for(Terminfo::Terminfo::StringsContainer::const_iterator it = strings.cbegin(); it != strings.cend(); ++it)
   {
     os << "    " << cap.get(it->first).name() << ": " << it->second << "\n";
     os << "      (" << cap.get(it->first).description() << ")\n";

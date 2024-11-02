@@ -34,12 +34,12 @@ public:
   bool              isBoolean(const std::string& name) const noexcept { return std::find(m_booleans.begin(), m_booleans.end(), name) != m_booleans.end(); }
   bool              isInteger(const std::string& name) const noexcept { return std::find(m_integers.begin(), m_integers.end(), name) != m_integers.end(); }
   bool              isString(const std::string& name) const noexcept { return std::find(m_strings.begin(), m_strings.end(), name) != m_strings.end(); }
-  Boolean           getBoolean(const std::string& str);
-  Integer           getInteger(const std::string& str);
-  String            getString(const std::string& str);
-  BooleanCapability get(const Boolean& boolean) const { return m_booleans[static_cast<std::size_t>(boolean)]; }
-  IntegerCapability get(const Integer& integer) const { return m_integers[static_cast<std::size_t>(integer)]; }
-  StringCapability  get(const String& string) const { return m_strings[static_cast<std::size_t>(string)]; }
+  BooleanId         getBoolean(const std::string& str);
+  IntegerId         getInteger(const std::string& str);
+  StringId          getString(const std::string& str);
+  BooleanCapability get(const BooleanId& boolean) const { return m_booleans[static_cast<std::size_t>(boolean)]; }
+  IntegerCapability get(const IntegerId& integer) const { return m_integers[static_cast<std::size_t>(integer)]; }
+  StringCapability  get(const StringId& string) const { return m_strings[static_cast<std::size_t>(string)]; }
   inline bool       know(const std::string& name) const noexcept { return isBoolean(name) || isInteger(name) || isString(name); }
 };
 

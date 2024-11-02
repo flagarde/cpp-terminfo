@@ -13,7 +13,7 @@
 namespace Terminfo
 {
 
-enum class String : std::uint16_t
+enum class StringId : std::uint16_t
 {
   back_tab,
   bell,

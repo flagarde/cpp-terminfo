@@ -128,8 +128,8 @@ void Terminfo::Parser::parseCapability(const std::string& line)
     }
     if(capabilities.know(key))
     {
-      String string = capabilities.getString(key);
-      m_infos[m_infos.size() - 1].addString(string, value);
+      StringId string = capabilities.getString(key);
+      m_infos[m_infos.size() - 1].add(string, value);
     }
     else
       m_unknown[key] = Type::String;
@@ -142,8 +142,8 @@ void Terminfo::Parser::parseCapability(const std::string& line)
     if(capabilities.know(key))
     {
       std::string value   = line.substr(pos + 1, line.size());
-      Integer     integer = capabilities.getInteger(key);
-      m_infos[m_infos.size() - 1].addInteger(integer, stoi(value));
+      IntegerId   integer = capabilities.getInteger(key);
+      m_infos[m_infos.size() - 1].add(integer, stoi(value));
     }
     else
       m_unknown[key] = Type::Integer;
@@ -156,7 +156,7 @@ void Terminfo::Parser::parseCapability(const std::string& line)
     return;
   }
   // is a boolean
-  if(capabilities.know(line)) m_infos[m_infos.size() - 1].addBoolean(capabilities.getBoolean(line));
+  if(capabilities.know(line)) m_infos[m_infos.size() - 1].add(capabilities.getBoolean(line));
   else
     m_unknown[line] = Type::Boolean;
 }

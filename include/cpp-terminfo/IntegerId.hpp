@@ -13,7 +13,7 @@
 namespace Terminfo
 {
 
-enum class Integer : std::uint8_t
+enum class IntegerId : std::uint8_t
 {
   columns,
   init_tabs,

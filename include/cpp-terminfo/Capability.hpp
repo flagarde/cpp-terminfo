@@ -8,9 +8,9 @@
  */
 
 #pragma once
-#include "cpp-terminfo/Boolean.hpp"
-#include "cpp-terminfo/Integer.hpp"
-#include "cpp-terminfo/String.hpp"
+#include "cpp-terminfo/BooleanId.hpp"
+#include "cpp-terminfo/IntegerId.hpp"
+#include "cpp-terminfo/StringId.hpp"
 
 #include <string>
 
@@ -33,8 +33,8 @@ private:
   type_id     m_id;
 };
 
-using BooleanCapability = Capability<Boolean>;
-using IntegerCapability = Capability<Integer>;
-using StringCapability  = Capability<String>;
+using BooleanCapability = Capability<BooleanId>;
+using IntegerCapability = Capability<IntegerId>;
+using StringCapability  = Capability<StringId>;
 
 }  // namespace Terminfo

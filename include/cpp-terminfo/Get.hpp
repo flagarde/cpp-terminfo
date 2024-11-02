@@ -11,8 +11,6 @@
 
 #include "cpp-terminfo/Terminfo.hpp"
 
-#include <functional>
-
 #ifdef _WIN32
   #ifdef BUILDING_DLL
     #define DLL_EXPORT __declspec(dllexport)

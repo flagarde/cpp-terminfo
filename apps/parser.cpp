@@ -10,6 +10,7 @@
 #include "cpp-terminfo/Parser.hpp"
 
 #include "cpp-terminfo/Print.hpp"
+#include "cpp-terminfo/Terminfo.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -49,21 +50,21 @@ void Writer::writeCPP()
     std::string description = m_infos[i].getType().description();
     std::string aliases     = "\"" + m_infos[i].getType().name() + "\"";
     for(std::size_t j = 0; j != m_infos[i].getType().aliases().size(); ++j) { aliases += ",\"" + m_infos[i].getType().aliases()[j] + "\""; }
-    std::string                       booleans = "{";
-    const std::set<Terminfo::Boolean> bools    = m_infos[i].getBooleans();
-    for(std::set<Terminfo::Boolean>::const_iterator it = bools.cbegin(); it != bools.cend(); ++it)
+    std::string                                 booleans = "{";
+    const Terminfo::Terminfo::BooleansContainer bools    = m_infos[i].getBooleans();
+    for(Terminfo::Terminfo::BooleansContainer::const_iterator it = bools.cbegin(); it != bools.cend(); ++it)
     {
-      booleans += "Terminfo::Boolean(";
+      booleans += "Terminfo::BooleanId(";
       booleans += std::to_string(static_cast<std::uint8_t>(*it));
       booleans += "),";
     }
     if(booleans.size() > 1) booleans.pop_back();
     booleans += "}";
-    std::string                                      inte     = "{";
-    const std::map<Terminfo::Integer, std::uint16_t> integers = m_infos[i].getIntegers();
-    for(std::map<Terminfo::Integer, std::uint16_t>::const_iterator it = integers.cbegin(); it != integers.cend(); ++it)
+    std::string                                 inte     = "{";
+    const Terminfo::Terminfo::IntegersContainer integers = m_infos[i].getIntegers();
+    for(Terminfo::Terminfo::IntegersContainer::const_iterator it = integers.cbegin(); it != integers.cend(); ++it)
     {
-      inte += "{Terminfo::Integer(";
+      inte += "{Terminfo::IntegerId(";
       inte += std::to_string(static_cast<std::uint8_t>(it->first));
       inte += "),";
       inte += std::to_string(it->second);
@@ -71,11 +72,11 @@ void Writer::writeCPP()
     }
     if(inte.size() > 1) inte.pop_back();
     inte += "}";
-    const std::map<Terminfo::String, std::string> strings = m_infos[i].getStrings();
-    std::string                                   str     = "{";
-    for(std::map<Terminfo::String, std::string>::const_iterator it = strings.cbegin(); it != strings.cend(); ++it)
+    const Terminfo::Terminfo::StringsContainer strings = m_infos[i].getStrings();
+    std::string                                str     = "{";
+    for(Terminfo::Terminfo::StringsContainer::const_iterator it = strings.cbegin(); it != strings.cend(); ++it)
     {
-      str += "{Terminfo::String(";
+      str += "{Terminfo::StringId(";
       str += std::to_string(static_cast<std::uint16_t>(it->first));
       str += "),R\"(";
       str += it->second;

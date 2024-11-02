@@ -13,7 +13,7 @@
 namespace Terminfo
 {
 
-enum class Boolean : std::uint8_t
+enum class BooleanId : std::uint8_t
 {
   auto_left_margin,
   auto_right_margin,
