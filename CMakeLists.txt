@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 project(cpp-terminfo VERSION "0.0.1" DESCRIPTION "C++ terminfo library" HOMEPAGE_URL "https://github.com/flagarde/cpp-terminfo" LANGUAGES CXX)
 
