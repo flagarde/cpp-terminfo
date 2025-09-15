@@ -19,9 +19,13 @@ class Type
 {
 public:
   Type() = default;
-  Type(const std::vector<std::string>& aliases, const std::string& description) : m_description(description), m_aliases(aliases)
+  Type(const std::vector<std::string>& aliases, const std::string& description) : m_aliases(aliases), m_description(description)
   {
     m_description.shrink_to_fit();
+    for(std::vector<std::string>::iterator it = m_aliases.begin(); it != m_aliases.end(); ++it) it->shrink_to_fit();
+  }
+  Type(const std::vector<std::string>& aliases) : m_aliases(aliases)
+  {
     for(std::vector<std::string>::iterator it = m_aliases.begin(); it != m_aliases.end(); ++it) it->shrink_to_fit();
   }
   std::string              description() const noexcept { return m_description; }

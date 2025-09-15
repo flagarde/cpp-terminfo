@@ -19,26 +19,33 @@
 
 static std::vector<std::string> split(const std::string& s, const char& delimiter, const char& annuler = '\\')
 {
-  if(s.empty()) return {};
-  std::vector<std::string> tokens;
-  std::size_t              pos_begin{0};
-  std::size_t              pos_last{0};
-  std::size_t              skip{0};
-  while((pos_last = s.find(delimiter, skip)) != std::string::npos)
-  {
-    if(pos_last - 1 >= 0 && s[pos_last - 1] != annuler)
+    if (s.empty()) return {};  // Handle empty string
+
+    std::vector<std::string> tokens;
+    std::size_t pos_begin = 0;
+    std::size_t pos_last = 0;
+    std::size_t skip = 0;
+
+    while ((pos_last = s.find(delimiter, skip)) != std::string::npos)
     {
-      tokens.push_back(s.substr(pos_begin, pos_last - pos_begin));
-      pos_begin = pos_last + 1;
-      skip      = pos_last + 1;
+        // If delimiter is not escaped, push token
+        if (pos_last > 0 && s[pos_last - 1] != annuler)
+        {
+            tokens.push_back(s.substr(pos_begin, pos_last - pos_begin));
+            pos_begin = pos_last + 1;
+            skip = pos_last + 1;
+        }
+        else
+        {
+            // Skip escaped delimiter
+            ++skip;
+        }
     }
-    else if(pos_last == 0)
-      tokens.push_back("");
-    else
-      ++skip;
-  }
-  if(pos_last != s.size() - 1) tokens.push_back(s.substr(pos_begin, s.size() - pos_begin));
-  return tokens;
+
+    // Add the last token, including empty ones if delimiter is at the end
+    tokens.push_back(s.substr(pos_begin));
+
+    return tokens;
 }
 
 void Terminfo::Parser::parse()
@@ -62,14 +69,14 @@ void Terminfo::Parser::parse()
         }
         case '\t':
         {
-          std::string line(5000, '\0');
+          std::string line(82, '\0');
           std::getline(fs, line);
           capabilities_lines += line;
           break;
         }
         default:
         {
-          std::string line(5000, '\0');
+          std::string line(82, '\0');
           std::getline(fs, line);
           parseCapabilities(capabilities_lines);
           parseType(line);
@@ -92,10 +99,14 @@ void Terminfo::Parser::parse()
 void Terminfo::Parser::parseType(const std::string& line)
 {
   std::vector<std::string> tokens = split(line, '|');
-  std::string              description{tokens[tokens.size() - 1]};  // Description
-  description = description.substr(0, description.size() - 1);      // Suppress the ,
-  tokens.pop_back();
-  m_infos.push_back(Terminfo({tokens, description}));
+  if(tokens.size()>1)
+  {
+    std::string              description{tokens[tokens.size() - 1]};  // Description
+    description = description.substr(0, description.size() - 1);      // Suppress the ,
+    tokens.pop_back();
+    m_infos.push_back(Terminfo({tokens, description}));
+  }
+  else m_infos.push_back(Terminfo(tokens));
 }
 
 void Terminfo::Parser::parseCapabilities(std::string& line)
